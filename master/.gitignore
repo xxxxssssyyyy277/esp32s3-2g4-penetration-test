@@ -1,0 +1,16 @@
+# 虚拟环境与缓存
+.venv/
+__pycache__/
+*.pyc
+*.log
+
+# 临时验证目录（自测/演示用，不应提交）
+_demo/
+pc/demo/
+
+# 采集/分析产出（materials.csv 是模板，需要保留）
+pc/data/raw.csv
+pc/data/summary.csv
+pc/data/compare_theory.csv
+pc/data/probe.csv
+pc/figures/

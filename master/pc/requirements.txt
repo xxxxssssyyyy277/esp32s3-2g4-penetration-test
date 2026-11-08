@@ -1,0 +1,20 @@
+# PC host dependencies (Python 3.9 - 3.11).
+# NOTE: comments here are ASCII on purpose: old pip on Windows reads this file
+# with the GBK code page and would choke on non-ASCII bytes.
+#
+# This machine runs 32-bit Python 3.11.2 (D:\Python\Python311-32\python.exe).
+# The last versions shipping win32 wheels are numpy 1.26.4 / pandas 2.0.3 /
+# matplotlib 3.7.5; anything newer is sdist-only for win32 and pip would try to
+# compile meson/C extensions and fail. Hence the upper bounds below.
+# On 64-bit Python 3.12+ these bounds can be relaxed (e.g. pandas>=2.2).
+#
+# Wheels only: some transitive deps (e.g. kiwisolver 1.5) publish no win32
+# wheel at all, and pip would then try to compile C++ and fail. Forcing
+# binary-only makes pip fall back to the newest version that does ship one.
+--only-binary=:all:
+pyserial>=3.5
+numpy>=1.24,<1.27
+pandas>=2.0,<2.1
+matplotlib>=3.7,<3.8
+
+

@@ -1,0 +1,13 @@
+case_id,label,material,thickness_mm,category,note
+0,NONE,无遮挡,0,reference,基准工况：首尾各测一次
+1,PAPER,硬纸板 1 层,3,dielectric,两块 A3 拼成 35x35 cm
+2,BOOK1,1 本书,25,water,四周用纸板补到 35x35 cm，与 3 号构成厚度序列
+3,BOOK5,5 本书,125,water,与 2 号构成厚度序列
+4,WATER,水墙(6 瓶并排),100,water,单瓶太小不能用
+5,FOIL,铝箔 2 层无缝隙,1,conductor,极薄但近乎全反射
+6,FOILGAP,铝箔 2 层中间留 5 cm 缝,1,conductor,与 5 号唯一差别是那条缝
+7,BODY,人体(一人站中点),0,water,体宽约 45 cm 已够
+8,HAND_A1,手捂板 A(被试1),0,water,近场：手掌贴住板 A 天线；被试1，同人同姿势同位置；记录手掌长宽与干湿
+9,HAND_A2,手捂板 A(被试2),0,water,近场：手掌贴住板 A 天线；被试2，仅换人，其余条件不变
+10,HAND_A3,手捂板 A(被试3),0,water,近场：手掌贴住板 A 天线；被试3，用于对比人际差异
+

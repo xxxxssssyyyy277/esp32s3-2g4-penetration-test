@@ -1,0 +1,20 @@
+{
+  // 本机唯一装了 pyserial/pandas/matplotlib 的解释器（32 位 Python 3.11.2）
+  "python.defaultInterpreterPath": "D:\\Python\\Python311-32\\python.exe",
+  "python.terminal.activateEnvironment": true,
+
+  // 让 Pylance 认得 pc/ 下的裸导入（serial_proto / capture / analyze）
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/pc",
+    "${workspaceFolder}/pc/tests"
+  ],
+
+  // 测试面板：直接跑 pc/tests 下的 unittest
+  "python.testing.unittestEnabled": true,
+  "python.testing.pytestEnabled": false,
+  "python.testing.cwd": "${workspaceFolder}",
+  "python.testing.unittestArgs": ["-v", "-s", "./pc/tests", "-p", "test_*.py"],
+
+  "files.encoding": "utf8",
+  "python-envs.defaultEnvManager": "ms-python.python:system"
+}

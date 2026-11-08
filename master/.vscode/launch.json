@@ -1,0 +1,108 @@
+{
+  // VS Code → 运行和调试（Ctrl+Shift+D）→ 右上角下拉选下面任意一项，F5 启动
+  // 解释器固定为本机 32 位 Python：见 .vscode/settings.json 的 python.defaultInterpreterPath
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "① 假板子跑全流程（无硬件，推荐先跑这个）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/demo_offline.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--n", "20"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "①b 假板子 + C6 掉线（看重试与退出码 3）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/demo_offline.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--n", "10", "--drop", "6"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "② 采集 capture.py（真串口，12 轮）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/capture.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--port", "${input:comPort}", "--cases", "0-10", "--n", "50",
+               "--interval", "100", "--settle", "5", "--out", "data/raw.csv"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "②b 采集 capture.py（真串口，只测 C1，调试用）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/capture.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--port", "${input:comPort}", "--cases", "1", "--n", "10",
+               "--settle", "0", "--out", "data/probe.csv"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "②c 采集（真串口，只测 C8 手捂板 A 被试1，验证新测点）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/capture.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--port", "${input:comPort}", "--cases", "8", "--n", "20",
+               "--settle", "0", "--out", "data/probe_c8.csv"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "②d 采集（真串口，三个被试 C8-10，看人际差异）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/capture.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--port", "${input:comPort}", "--cases", "0,8-10", "--n", "20",
+               "--settle", "5", "--out", "data/hands.csv"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "③ 分析 analyze.py（读 data/raw.csv）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/pc/analyze.py",
+      "cwd": "${workspaceFolder}/pc",
+      "args": ["--no-plots"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "④ 离线自测（unittest discover，带断点）",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "unittest",
+      "args": ["discover", "-s", "pc/tests", "-v"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "⑤ 调试当前打开的文件",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}/pc",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "comPort",
+      "type": "promptString",
+      "description": "板 B 的串口（设备管理器 → 端口(COM 和 LPT)）",
+      "default": "COM5"
+    }
+  ]
+}

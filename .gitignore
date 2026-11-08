@@ -1,0 +1,35 @@
+# 课程资料与工具，不发布到公开仓
+课程报告要求/
+课程报告要求.zip
+acl-recovery/
+grep2.log
+*.zip
+
+# ESP-IDF 构建产物（若有人就地编译）
+build/
+build_*/
+sdkconfig
+sdkconfig.old
+*.bin
+*.elf
+*.map
+*.obj
+*.o
+
+# Python 缓存与虚拟环境
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+
+# 上位机产出（可由脚本再生；materials.csv 是模板，需保留）
+master/pc/demo/
+master/pc/data/raw.csv
+master/pc/data/summary.csv
+master/pc/data/compare_theory.csv
+master/pc/data/probe*.csv
+master/pc/data/hands.csv
+master/pc/figures/
+board b/tools/tmp_online_test.ps1

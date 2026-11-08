@@ -1,0 +1,27 @@
+# Target chip
+CONFIG_IDF_TARGET="esp32s3"
+
+# Board in use: ESP32-S3 (QFN56, rev0.2) with 16 MB flash and 8 MB PSRAM.
+# PSRAM is intentionally left disabled: the 240x240 framebuffer lives in .bss
+# and everything fits in internal RAM. Only the flash size is set correctly so
+# the bootloader header matches the real chip.
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+
+# Console on UART0, 115200 8N1
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y
+CONFIG_ESP_CONSOLE_UART_BAUDRATE=115200
+
+# 1 ms tick: keep the 50 ms UDP keepalive and the 100 ms sampling interval exact
+CONFIG_FREERTOS_HZ=1000
+
+# Pin the Wi-Fi driver task to core 1 (display task runs on core 0)
+CONFIG_ESP_WIFI_TASK_PINNED_TO_CORE_1=y
+
+# Protocol lines must stay clean: only "#...", "[DISP] ..." and CSV rows.
+# The firmware turns all ESP_LOG output off at runtime in app_main().
+CONFIG_LOG_DEFAULT_LEVEL_WARN=y
+CONFIG_BOOTLOADER_LOG_LEVEL_NONE=y
+
+# Main/event task stacks
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=4096
+CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=4096
