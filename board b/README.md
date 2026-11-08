@@ -151,6 +151,16 @@ fatal error: LCD.h: No such file or directory
 | CS | **GPIO2** | `LCD_CS_PIN` | 低有效 |
 | BLK | **GPIO1** | `LCD_BL_PIN` | 背光，高点亮，LEDC 通道 0 / 定时器 0 / 5 kHz |
 
+> ⚠️ **屏幕与单片机必须共地，否则屏幕有概率不亮。**
+>
+> 这不只针对“外部电源供电”的情况：即使 VCC 直接从 ESP32 的 3V3 取，只要 **GND
+> 没接实（漏接、插在空排针、杜邦线接触不良）**，SCL/SDA 与背光都没有参考地，
+> 表现就是**时亮时不亮、复位几次能亮一次、或一直背光亮但画面全黑**，
+> 而固件侧不会报任何“接线错误”。
+>
+> 排查顺序：① 量模块焊盘 `VCC↔GND` 是否约 3.3 V；② 用蜂鸣档量模块 `GND↔ESP32 GND`
+> 是否导通；③ 共地后 SCL/SDA 静态高电平应约为 ESP32 的 3V3 电压。
+
 - GPIO39–42 是 MTCK/MTDO/MTDI/MTMS 四根 JTAG 脚。作普通 GPIO 完全可用，代价是
   **外部 JTAG 调试器不能再用**；板载 USB Serial/JTAG（GPIO19/20）不受影响，烧写与
   `idf.py monitor` 正常。
