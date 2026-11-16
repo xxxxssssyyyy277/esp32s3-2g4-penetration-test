@@ -40,6 +40,9 @@ DRIFT_LIMIT_DB = 3.0
 MAD_K = 3.0
 #: 与参考量级比较时的容差
 VERDICT_TOL_DB = 3.0
+#: 两板天线间距（米）。仅用于图题；换距离重测时改这一处即可。
+#: 注意：raw.csv 目前不记录距离，所以这个值无法从数据反推。
+LINK_DISTANCE_M = 0.25
 
 RAW_REQUIRED = ["case_id", "label", "seq", "t_ms", "rssi_dbm",
                 "round_idx", "round_role", "ap_bssid", "ap_ch"]
@@ -388,9 +391,9 @@ LABELS = {
         "loss": "穿透损耗 (dB)",
         "rssi": "接收电平 RSSI (dBm)",
         "category": "材质分类",
-        "material_title": "各遮挡物穿透损耗（件间距 1.0 m，每测点 {n} 个样本）\n{date}",
+        "material_title": "各遮挡物穿透损耗（件间距 {d:.2f} m，每测点 {n} 个样本）\n{date}",
         "thickness": "遮挡物厚度 (mm)",
-        "thickness_title": "{cat}类遮挡物：损耗与厚度的关系（件间距 1.0 m）\n{date}",
+        "thickness_title": "{cat}类遮挡物：损耗与厚度的关系（件间距 {d:.2f} m）\n{date}",
         "slope": "拟合斜率",
         "baseline_title": "基准稳定性：首尾两次无遮挡测量的 RSSI 分布\n{date}",
         "first_base": "首次基准 (first_base)",
@@ -401,9 +404,9 @@ LABELS = {
         "loss": "Obstruction loss (dB)",
         "rssi": "RSSI (dBm)",
         "category": "Category",
-        "material_title": "Obstruction loss per material (1.0 m link, n={n} samples)\n{date}",
+        "material_title": "Obstruction loss per material ({d:.2f} m link, n={n} samples)\n{date}",
         "thickness": "Thickness (mm)",
-        "thickness_title": "{cat} samples: loss vs thickness (1.0 m link)\n{date}",
+        "thickness_title": "{cat} samples: loss vs thickness ({d:.2f} m link)\n{date}",
         "slope": "Fitted slope",
         "baseline_title": "Baseline stability: first vs last unobstructed run\n{date}",
         "first_base": "first_base",
@@ -463,7 +466,8 @@ def plot_loss_by_material(plt, np, summary: List[dict], path: Path,
     ax.set_yticks(positions)
     ax.set_yticklabels(names)
     ax.set_xlabel(labels["loss"])
-    ax.set_title(labels["material_title"].format(n=n_text, date=day))
+    ax.set_title(labels["material_title"].format(
+        d=LINK_DISTANCE_M, n=n_text, date=day))
     ax.grid(axis="x", linestyle=":", alpha=0.45)
 
     span = float(losses.max() + sigmas.max()) if len(rows) else 1.0
@@ -576,7 +580,7 @@ def plot_loss_by_thickness(plt, np, summary: List[dict], path: Path,
     ax.set_xlabel(labels["thickness"])
     ax.set_ylabel(labels["loss"])
     ax.set_title(labels["thickness_title"].format(
-        cat=CATEGORY_ZH.get(category, category), date=day))
+        d=LINK_DISTANCE_M, cat=CATEGORY_ZH.get(category, category), date=day))
     ax.set_ylim(float((y - yerr).min()) - 0.6, float((y + yerr).max()) + 0.9)
     ax.grid(linestyle=":", alpha=0.45)
     ax.legend(fontsize=8)
